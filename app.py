@@ -1,106 +1,87 @@
 import streamlit as st
-from quiz_data import quiz_list
+import random
 
-# --- 状態管理 (Session State) ---
-if "current_q_index" not in st.session_state:
-    st.session_state.current_q_index = 0
-if "wrong_answers" not in st.session_state:
-    st.session_state.wrong_answers = []
-if "show_explanation" not in st.session_state:
-    st.session_state.show_explanation = False
-if "selected_choice" not in st.session_state:
-    st.session_state.selected_choice = None
-if "review_mode" not in st.session_state:
-    st.session_state.review_mode = False
+# ① 問題データ（後でここにどんどん問題を書き足していきます）
+question_bank = {
+    "HTML/CSS": {
+        "初級": [
+            {"question": "見出しを作るHTMLタグはどれ？", "choices": ["<h1>", "<p>", "<div>", "<a>"], "answer": "<h1>"},
+            {"question": "文字を太くするCSSプロパティは？", "choices": ["font-weight", "text-align", "color", "margin"], "answer": "font-weight"},
+            {"question": "リンクを作るタグはどれ？", "choices": ["<a>", "<link>", "<href>", "<img>"], "answer": "<a>"},
+            {"question": "段落を作るタグはどれ？", "choices": ["<p>", "<br>", "<span>", "<div>"], "answer": "<p>"},
+            {"question": "背景色を変えるCSSは？", "choices": ["background-color", "color", "bg-color", "border"], "answer": "background-color"}
+        ],
+        "中級": [],
+        "上級": []
+    },
+    "Pythonフロントエンド": {
+        "初級": [], "中級": [], "上級": []
+    },
+    "Pythonバックエンド": {
+        "初級": [], "中級": [], "上級": []
+    }
+}
 
-# メニューを変更したときにクイズをリセットする関数
-def reset_quiz():
-    st.session_state.current_q_index = 0
-    st.session_state.show_explanation = False
-    st.session_state.selected_choice = None
-    st.session_state.review_mode = False
+st.title("プログラミング クイズアプリ")
 
-st.title("Python & Web開発 クイズアプリ")
+# ② 記憶箱（session_state）の準備
+# Streamlitはボタンを押すたびに最初から読み込み直す性質があるため、
+# 「今クイズ中かどうか」「ランダムに選んだ問題」を記憶させておく必要があります。
+if "quiz_started" not in st.session_state:
+    st.session_state.quiz_started = False
+if "current_questions" not in st.session_state:
+    st.session_state.current_questions = []
+if "user_answers" not in st.session_state:
+    st.session_state.user_answers = {}
 
-# --- サイドバー (設定メニュー) ---
-st.sidebar.header("クイズの設定")
-selected_level = st.sidebar.selectbox("レベルを選択", ["基礎", "応用"], on_change=reset_quiz)
-selected_category = st.sidebar.selectbox("分野を選択", ["フロントエンド", "バックエンド"], on_change=reset_quiz)
+# ③ 画面の切り替え
+if not st.session_state.quiz_started:
+    # 【スタート画面】
+    st.write("ジャンルと難易度を選んでください。")
 
-# --- 問題の絞り込み ---
-if st.session_state.review_mode:
-    st.warning("🔥 復習モード実行中（間違えた問題のみ出題）")
-    # 間違えた問題IDに一致するものだけを抽出
-    filtered_quiz = [q for q in quiz_list if q['id'] in st.session_state.wrong_answers]
-else:
-    # 選択したレベルと分野に一致するものだけを抽出
-    filtered_quiz = [q for q in quiz_list if q['level'] == selected_level and q['category'] == selected_category]
+    selected_category = st.selectbox("ジャンル", ["HTML/CSS", "Pythonフロントエンド", "Pythonバックエンド"])
+    selected_difficulty = st.selectbox("難易度", ["初級", "中級", "上級"])
 
-# 問題が1つもない場合の処理
-if not filtered_quiz:
-    st.info("この条件の問題はまだありません。追加をお待ちください！")
-    st.stop()
+    if st.button("クイズスタート！"):
+        # 選ばれたジャンル・難易度の問題を全部持ってくる
+        all_q = question_bank[selected_category][selected_difficulty]
 
-# --- クイズのメイン処理 ---
-# 全問終了したかチェック
-if st.session_state.current_q_index >= len(filtered_quiz):
-    st.success("全問終了しました！お疲れ様でした。")
-    
-    if st.session_state.review_mode:
-        st.write("復習完了です！")
-        if st.button("通常モードに戻る"):
-            reset_quiz()
-            st.rerun()
-    else:
-        if st.session_state.wrong_answers:
-            st.warning(f"間違えた問題数: {len(st.session_state.wrong_answers)}問")
-            if st.button("間違えた問題を復習する"):
-                st.session_state.review_mode = True
-                st.session_state.current_q_index = 0
-                st.session_state.show_explanation = False
-                st.rerun()
+        # ※今はテスト用に「3問」ランダムに選ぶ設定にしています。
+        # 問題数が充実したら、ここを 15 に変更します。
+        sample_size = min(3, len(all_q)) 
+
+        if sample_size > 0:
+            # ランダムに選んで記憶箱に保存
+            st.session_state.current_questions = random.sample(all_q, sample_size)
+            st.session_state.quiz_started = True
+            st.session_state.user_answers = {}
+            st.rerun() # 画面を更新してクイズ解答画面へ
         else:
-            st.balloons()
-            st.write("全問正解です！素晴らしい！")
-        
-        if st.button("最初からやり直す"):
-            reset_quiz()
-            st.session_state.wrong_answers = []
-            st.rerun()
+            st.warning("このジャンル・難易度の問題はまだ準備中です！")
 
 else:
-    # 現在の問題を取得
-    q = filtered_quiz[st.session_state.current_q_index]
-    
-    st.subheader(f"第{st.session_state.current_q_index + 1}問 / 全{len(filtered_quiz)}問")
-    st.write(q['question'])
+    # 【クイズ解答画面】
+    st.write(f"### 問題 ({len(st.session_state.current_questions)}問)")
 
-    # --- 解説表示モード ---
-    if st.session_state.show_explanation:
-        if st.session_state.selected_choice == q['answer']:
-            st.success("正解！🎉")
-            # 復習モードで正解したら、間違えたリストから削除する
-            if st.session_state.review_mode and q['id'] in st.session_state.wrong_answers:
-                st.session_state.wrong_answers.remove(q['id'])
-        else:
-            st.error(f"不正解... (あなたの回答: {st.session_state.selected_choice})")
-            if not st.session_state.review_mode and q['id'] not in st.session_state.wrong_answers:
-                st.session_state.wrong_answers.append(q['id'])
-        
-        st.info(f"**【解説】**\n\n正解は **{q['answer']}** です。\n\n{q['explanation']}")
-        
-        if st.button("次の問題へ"):
-            st.session_state.current_q_index += 1
-            st.session_state.show_explanation = False
+    questions = st.session_state.current_questions
+
+    for i, q in enumerate(questions):
+        st.write(f"**Q{i+1}. {q['question']}**")
+        # 選択肢をシャッフルして表示したい場合はもう少し工夫できますが、まずはシンプルに表示します
+        answer = st.radio(f"Q{i+1}の答えを選んでください", q['choices'], key=f"q_{i}", index=None)
+        st.session_state.user_answers[i] = answer
+        st.write("---")
+
+    if st.button("採点する"):
+        score = 0
+        for i, q in enumerate(questions):
+            # 選んだ答えと、正解が一致しているかチェック
+            if st.session_state.user_answers.get(i) == q['answer']:
+                score += 1
+
+        st.success(f"あなたの点数は {len(questions)}問中 【 {score}問 】 正解です！")
+
+        if st.button("トップ画面に戻る"):
+            # 記憶箱をリセットしてスタート画面に戻る
+            st.session_state.quiz_started = False
             st.rerun()
-
-    # --- 問題出題モード (4択ボタン) ---
-    else:
-        col1, col2 = st.columns(2)
-        for i, choice in enumerate(q['choices']):
-            target_col = col1 if i % 2 == 0 else col2
-            with target_col:
-                if st.button(choice, use_container_width=True):
-                    st.session_state.selected_choice = choice
-                    st.session_state.show_explanation = True
-                    st.rerun()
