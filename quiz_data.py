@@ -1,7 +1,13 @@
-from data_backend_basic import quiz_list as backend_basic
-from data_frontend_basic import quiz_list as frontend_basic
-from data_backend_advanced import quiz_list as backend_advanced
-from data_frontend_advanced import quiz_list as frontend_advanced
+# quiz_data.py
 
-# 4つのリストを足し算して1つの大きなリストにする
-quiz_list = backend_basic + frontend_basic + backend_advanced + frontend_advanced
+# 作成した3つのファイルから問題データ（questions）を読み込む
+from data_html_css import questions as html_css_q
+from data_python_frontend import questions as frontend_q
+from data_python_backend import questions as backend_q
+
+# アプリで使うための大きな辞書にまとめる
+question_bank = {
+    "HTML/CSS": html_css_q,
+    "Pythonフロントエンド": frontend_q,
+    "Pythonバックエンド": backend_q
+}
