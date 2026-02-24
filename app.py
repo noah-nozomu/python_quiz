@@ -43,7 +43,19 @@ if st.session_state.quiz_started:
 # ① 【復習画面】
 # ----------------------------------------
 if st.session_state.is_reviewing:
-    st.write("### 📝 復習画面")
+    # タイトルと中断ボタン
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.write("### 📝 復習画面")
+    with col2:
+        if st.button("中断して戻る", key="review_back_top"):
+            st.session_state.quiz_started = False
+            st.session_state.is_scored = False
+            st.session_state.is_reviewing = False
+            st.session_state.review_scored = False
+            st.session_state.review_answers = {}
+            st.rerun()
+
     st.write("間違えた問題にもう一度挑戦してみましょう！")
     
     for i, q in enumerate(st.session_state.wrong_questions):
@@ -59,11 +71,10 @@ if st.session_state.is_reviewing:
             else:
                 st.error(f"不正解 ❌ (正解は: {q['answer']})")
 
-            # ★解説の表示（データがある場合のみ）
+            # 解説の表示
             if "explanation" in q:
                 st.markdown(f"**📝 解説:**\n{q['explanation']}")
                 
-            # コード例の表示
             if "example" in q:
                 st.info("💡 【コード例】\n```\n" + q["example"] + "\n```")
             st.write("---")
@@ -74,9 +85,19 @@ if st.session_state.is_reviewing:
             st.session_state.review_answers[i] = answer
             st.write("---")
 
+    # 復習画面のボタン
     if not st.session_state.review_scored:
         if st.button("復習を採点する"):
             st.session_state.review_scored = True
+            st.rerun()
+    else:
+        # 復習が終わった後の「戻る」ボタン（下部）
+        if st.button("トップ画面に戻る", key="review_bottom_back"):
+            st.session_state.quiz_started = False
+            st.session_state.is_scored = False
+            st.session_state.is_reviewing = False
+            st.session_state.review_scored = False
+            st.session_state.review_answers = {}
             st.rerun()
 
 # ----------------------------------------
@@ -109,10 +130,54 @@ elif not st.session_state.quiz_started:
 # ③ 【クイズ解答・結果画面】
 # ----------------------------------------
 else:
-    st.write(f"### 問題 ({len(st.session_state.current_questions)}問)")
-
+    # タイトルと中断ボタン
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.write(f"### 問題 ({len(st.session_state.current_questions)}問)")
+    with col2:
+        if st.button("中断して戻る", key="quiz_back_top"):
+            st.session_state.quiz_started = False
+            st.session_state.is_scored = False
+            st.session_state.wrong_questions = []
+            st.rerun()
+    
     questions = st.session_state.current_questions
 
+    # ★★★ 結果発表（画面上部） ★★★
+    if st.session_state.is_scored:
+        score = len(questions) - len(st.session_state.wrong_questions)
+        
+        # 点数と演出
+        if score == len(questions):
+            st.balloons()
+            st.success(f"### 完璧です！全問正解！神レベル！🎉 ({score}/{len(questions)})")
+        elif score >= len(questions) * 0.8:
+            st.snow()
+            st.success(f"### 素晴らしい！合格圏内です！❄️ ({score}/{len(questions)})")
+        else:
+            st.warning(f"### 惜しい！あと少しで合格です！🔥 ({score}/{len(questions)})")
+        
+        # 結果画面のボタン（上にも配置：すぐに次の行動ができるように）
+        res_col1, res_col2 = st.columns(2)
+        with res_col1:
+            if st.button("トップ画面に戻る", key="result_top_nav"):
+                st.session_state.quiz_started = False
+                st.session_state.is_scored = False
+                st.session_state.is_reviewing = False
+                st.rerun()
+        with res_col2:
+            if len(st.session_state.wrong_questions) > 0:
+                if st.button("間違えた問題を復習する", key="result_review_nav"):
+                    st.session_state.is_reviewing = True
+                    st.session_state.review_scored = False
+                    st.session_state.review_answers = {}
+                    st.rerun()
+        
+        st.divider() # 区切り線
+        st.write("👇 **以下、解答と解説です**")
+
+    # -----------------------------------------------------------
+    # ここから問題リストの表示
     for i, q in enumerate(questions):
         st.write(f"**Q{i+1}. {q['question']}**")
         
@@ -125,7 +190,7 @@ else:
             else:
                 st.error(f"不正解 ❌ (正解は: {q['answer']})")
 
-            # ★解説の表示（データがある場合のみ）
+            # 解説の表示
             if "explanation" in q:
                 st.markdown(f"**📝 解説:**\n{q['explanation']}")
                 
@@ -139,6 +204,10 @@ else:
             st.session_state.user_answers[i] = answer
             st.write("---")
 
+    # -----------------------------------------------------------
+    # 画面下部のボタンエリア
+
+    # 未採点なら「採点する」ボタン
     if not st.session_state.is_scored:
         if st.button("採点する"):
             st.session_state.is_scored = True
@@ -148,31 +217,21 @@ else:
                 if st.session_state.user_answers.get(i) != q['answer']:
                     st.session_state.wrong_questions.append(q)
                     
-            st.rerun()
+            st.rerun() # これで再読み込みされ、上の結果表示が出る
             
+    # ★★★ 採点済みなら、下にもボタンを表示（スクロール後に戻らなくていいように） ★★★
     else:
-        score = len(questions) - len(st.session_state.wrong_questions)
-        
-        # ★追加機能：点数に応じた演出
-        if score == len(questions):
-            st.balloons() # 風船を飛ばす
-            st.success(f"### 完璧です！全問正解！神レベル！🎉 ({score}/{len(questions)})")
-        elif score >= len(questions) * 0.8:
-            st.snow() # 雪を降らせる
-            st.success(f"### 素晴らしい！合格圏内です！❄️ ({score}/{len(questions)})")
-        else:
-            st.warning(f"### 惜しい！あと少しで合格です！🔥 ({score}/{len(questions)})")
-        
-        col1, col2 = st.columns(2)
-        with col1:
-            if st.button("トップ画面に戻る", key="result_back_top"):
+        st.write("### お疲れ様でした！")
+        res_bottom_col1, res_bottom_col2 = st.columns(2)
+        with res_bottom_col1:
+            if st.button("トップ画面に戻る", key="result_bottom_nav"):
                 st.session_state.quiz_started = False
                 st.session_state.is_scored = False
                 st.session_state.is_reviewing = False
                 st.rerun()
-        with col2:
+        with res_bottom_col2:
             if len(st.session_state.wrong_questions) > 0:
-                if st.button("間違えた問題を復習する"):
+                if st.button("間違えた問題を復習する", key="result_bottom_review_nav"):
                     st.session_state.is_reviewing = True
                     st.session_state.review_scored = False
                     st.session_state.review_answers = {}
