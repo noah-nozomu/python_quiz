@@ -1,185 +1,206 @@
-# data_html_css.py
-
 questions = {
     "初級": [
         {
-            "question": "一番大きな見出しを作るHTMLタグはどれ？", 
-            "choices": ["<h1>", "<p>", "<div>", "<a>"], 
+            "question": "HTMLで「一番大きな見出し」を作るタグはどれ？", 
+            "choices": ["<head>", "<h1>", "<title>", "<top>"], 
             "answer": "<h1>",
-            "example": "<h1>これは大見出しです</h1>"
+            "explanation": "見出しタグはh1からh6まであり、h1が最も重要な大見出しを表します。<head>はページの設定を書く場所です。",
+            "example": "<h1>ここが大見出し</h1>"
         },
         {
-            "question": "段落（文章のまとまり）を作るHTMLタグはどれ？", 
-            "choices": ["<br>", "<span>", "<p>", "<div>"], 
+            "question": "HTMLで「段落（文章のまとまり）」を作るタグはどれ？", 
+            "choices": ["<p>", "<text>", "<br>", "<group>"], 
             "answer": "<p>",
-            "example": "<p>ここからここまでが一つの段落になります。</p>"
+            "explanation": "Paragraph（パラグラフ）の略で、文章のひとかたまりを表します。<br>は改行を行うタグです。",
+            "example": "<p>これがひとつの段落です。</p>"
         },
         {
-            "question": "別のページへのリンクを作るHTMLタグはどれ？", 
-            "choices": ["<link>", "<a>", "<href>", "<img>"], 
-            "answer": "<a>",
-            "example": "<a href=\"https://google.com\">Googleへ移動</a>"
-        },
-        {
-            "question": "画像を表示するためのHTMLタグはどれ？", 
-            "choices": ["<image>", "<pic>", "<src>", "<img>"], 
-            "answer": "<img>",
-            "example": "<img src=\"sample.jpg\" alt=\"サンプルの画像\">"
-        },
-        {
-            "question": "文章を途中で改行するためのHTMLタグはどれ？", 
-            "choices": ["<enter>", "<break>", "<br>", "<hr>"], 
+            "question": "HTMLで「改行」をするためのタグはどれ？", 
+            "choices": ["<lb>", "<br>", "<break>", "<n>"], 
             "answer": "<br>",
-            "example": "あいうえお<br>かきくけこ"
+            "explanation": "Breakの略です。終了タグ（</br>）は不要で、単独で使います。",
+            "example": "行の途中で<br>改行します"
         },
         {
-            "question": "順序のない箇条書き（リスト）全体を囲むHTMLタグはどれ？", 
-            "choices": ["<ol>", "<ul>", "<li>", "<list>"], 
+            "question": "箇条書きリスト（順序なし・黒丸）を作るHTMLタグはどれ？", 
+            "choices": ["<ol>", "<li>", "<ul>", "<list>"], 
             "answer": "<ul>",
-            "example": "<ul>\n  <li>りんご</li>\n  <li>みかん</li>\n</ul>"
+            "explanation": "Unordered Listの略です。順序のあるリスト（番号付き）を作りたい場合は<ol>を使います。",
+            "example": "<ul>\n  <li>リスト1</li>\n  <li>リスト2</li>\n</ul>"
         },
         {
-            "question": "箇条書き（リスト）の各項目を作るHTMLタグはどれ？", 
-            "choices": ["<ul>", "<ol>", "<item>", "<li>"], 
+            "question": "箇条書きリスト（順序あり・番号付き）を作るHTMLタグはどれ？", 
+            "choices": ["<ul>", "<ol>", "<dl>", "<bl>"], 
+            "answer": "<ol>",
+            "explanation": "Ordered Listの略です。自動的に1, 2, 3...と番号が振られます。",
+            "example": "<ol>\n  <li>手順1</li>\n  <li>手順2</li>\n</ol>"
+        },
+        {
+            "question": "リストの中の「各項目」を作るタグはどれ？", 
+            "choices": ["<ul>", "<ol>", "<li>", "<item>"], 
             "answer": "<li>",
-            "example": "<ul>\n  <li>この部分がリストの項目です</li>\n</ul>"
+            "explanation": "List Itemの略です。<ul>や<ol>の中に書いて使います。",
+            "example": "<ul>\n  <li>ここが項目です</li>\n</ul>"
         },
         {
-            "question": "複数の要素をグループ化する、ブロック要素のタグはどれ？", 
-            "choices": ["<span>", "<div>", "<group>", "<box>"], 
-            "answer": "<div>",
-            "example": "<div class=\"container\">\n  <p>グループ化された要素</p>\n</div>"
+            "question": "文字を「太字」にするためのタグはどれ？", 
+            "choices": ["<b>", "<bold>", "<big>", "<stronger>"], 
+            "answer": "<b>",
+            "explanation": "Boldの略です。重要性を強調したい場合は<strong>を使うことが推奨されています。",
+            "example": "ここを<b>太字</b>にします"
         },
         {
-            "question": "文章の一部だけ色を変えたい時などに使う、インライン要素のタグはどれ？", 
-            "choices": ["<div>", "<p>", "<span>", "<text>"], 
+            "question": "文字の色を変えたりする時に使う、特に意味を持たない汎用的なタグ（インライン要素）はどれ？", 
+            "choices": ["<div>", "<p>", "<span>", "<style>"], 
             "answer": "<span>",
-            "example": "ここは普通の文字。<span style=\"color: red;\">ここだけ赤い文字。</span>"
+            "explanation": "文章の一部だけ色を変えたい時などにCSSと組み合わせて使います。ブロック単位で囲む場合は<div>を使います。",
+            "example": "<span style=\"color: red;\">ここだけ赤色</span>"
         },
         {
-            "question": "文字の色を変えるCSSプロパティはどれ？", 
-            "choices": ["color", "font-color", "text-color", "background-color"], 
+            "question": "CSSで文字の「色」を変えるプロパティはどれ？", 
+            "choices": ["font-color", "text-color", "color", "background-color"], 
             "answer": "color",
-            "example": "p {\n  color: blue;\n}"
+            "explanation": "文字色はシンプルに`color`プロパティを使います。`font-color`というプロパティはありません。",
+            "example": "p {\n  color: red;\n}"
         },
         {
-            "question": "背景色を変えるCSSプロパティはどれ？", 
-            "choices": ["color", "bg-color", "background-color", "back-color"], 
-            "answer": "background-color",
-            "example": "div {\n  background-color: #f0f0f0;\n}"
-        },
-        {
-            "question": "文字の大きさを変えるCSSプロパティはどれ？", 
-            "choices": ["text-size", "font-size", "size", "font-weight"], 
+            "question": "CSSで文字の「大きさ」を変えるプロパティはどれ？", 
+            "choices": ["text-size", "font-size", "size", "font-style"], 
             "answer": "font-size",
+            "explanation": "単位にはpx, rem, em, %などが使えます。",
             "example": "h1 {\n  font-size: 24px;\n}"
         },
         {
-            "question": "文字の太さを変えるCSSプロパティはどれ？", 
-            "choices": ["font-bold", "text-weight", "font-weight", "bold"], 
-            "answer": "font-weight",
-            "example": "p {\n  font-weight: bold;\n}"
+            "question": "CSSで文字を「中央揃え」にするプロパティはどれ？", 
+            "choices": ["text-align: center;", "align: center;", "font-align: center;", "center: true;"], 
+            "answer": "text-align: center;",
+            "explanation": "ブロック要素の中にあるテキストや画像を中央に寄せます。左揃えは`left`、右揃えは`right`です。",
+            "example": "div {\n  text-align: center;\n}"
         },
         {
-            "question": "文字を中央揃えや右揃えにするCSSプロパティはどれ？", 
-            "choices": ["align-items", "text-align", "justify-content", "position"], 
-            "answer": "text-align",
-            "example": "h2 {\n  text-align: center;\n}"
+            "question": "CSSで背景の色を変えるプロパティはどれ？", 
+            "choices": ["color", "bg-color", "background-color", "area-color"], 
+            "answer": "background-color",
+            "explanation": "要素の背景色を指定します。単に`background`と書くこともできます。",
+            "example": "body {\n  background-color: #f0f0f0;\n}"
         },
         {
-            "question": "要素の横幅を指定するCSSプロパティはどれ？", 
-            "choices": ["height", "size", "width", "length"], 
-            "answer": "width",
-            "example": "img {\n  width: 100%;\n}"
+            "question": "HTML要素に「クラス名」をつけるための属性はどれ？", 
+            "choices": ["id", "class", "name", "style"], 
+            "answer": "class",
+            "explanation": "CSSで`.クラス名`としてスタイルを適用するために使います。同じクラス名を複数の要素に使えます。",
+            "example": "<div class=\"box\">内容</div>"
+        },
+        {
+            "question": "HTML要素に「ID（固有の名前）」をつけるための属性はどれ？", 
+            "choices": ["class", "id", "tag", "key"], 
+            "answer": "id",
+            "explanation": "ページ内で一度しか使えない固有の名前を付けます。CSSでは`#ID名`として指定します。",
+            "example": "<div id=\"header\">ヘッダー</div>"
         },
         {
             "question": "要素の「外側」の余白を指定するCSSプロパティはどれ？", 
             "choices": ["padding", "margin", "border", "space"], 
             "answer": "margin",
+            "explanation": "要素の外側の隙間はmargin、内側の隙間はpaddingです。ここを混同しやすいので注意しましょう。",
             "example": "div {\n  margin: 20px;\n}"
         },
         {
             "question": "要素の「内側」の余白を指定するCSSプロパティはどれ？", 
             "choices": ["margin", "padding", "border", "spacing"], 
             "answer": "padding",
+            "explanation": "枠線（border）の内側に余白を作ります。",
             "example": "div {\n  padding: 10px;\n}"
         },
         {
             "question": "要素に枠線（ボーダー）をつけるCSSプロパティはどれ？", 
             "choices": ["line", "stroke", "border", "outline"], 
             "answer": "border",
+            "explanation": "太さ、種類（solid/dottedなど）、色をまとめて指定できます。",
             "example": "div {\n  border: 1px solid black;\n}"
         },
         {
             "question": "要素の「縦幅（高さ）」を指定するCSSプロパティはどれ？", 
             "choices": ["width", "height", "length", "size"], 
             "answer": "height",
+            "explanation": "横幅はwidth、高さはheightです。",
             "example": "div {\n  height: 200px;\n}"
         },
         {
             "question": "リンクの下線を消すなど、テキストの装飾を指定するCSSプロパティはどれ？", 
             "choices": ["text-style", "font-decoration", "text-decoration", "line-style"], 
             "answer": "text-decoration",
+            "explanation": "リンク（aタグ）の下線を消す際によく使われます。",
             "example": "a {\n  text-decoration: none;\n}"
         },
         {
             "question": "箇条書きの先頭の黒丸（・）などを消すCSSプロパティはどれ？", 
             "choices": ["list-type", "list-style", "ul-style", "bullet-none"], 
             "answer": "list-style",
+            "explanation": "`none`を指定するとマーカーが消えます。",
             "example": "ul {\n  list-style: none;\n}"
         },
         {
             "question": "クリックできる「ボタン」を作るHTMLタグはどれ？", 
             "choices": ["<btn>", "<click>", "<button>", "<input>"], 
             "answer": "<button>",
+            "explanation": "フォームの送信やJavaScriptのトリガーとして使われます。",
             "example": "<button type=\"button\">送信する</button>"
         },
         {
             "question": "ユーザーが文字を入力できる「テキストボックス」を作るHTMLタグはどれ？", 
             "choices": ["<text>", "<input>", "<form>", "<box>"], 
             "answer": "<input>",
+            "explanation": "type属性を変えることで、パスワード入力やチェックボックスなど様々な用途に使えます。",
             "example": "<input type=\"text\" placeholder=\"名前を入力\">"
         },
         {
             "question": "表（テーブル）の全体を囲むHTMLタグはどれ？", 
             "choices": ["<grid>", "<form>", "<table>", "<list>"], 
             "answer": "<table>",
+            "explanation": "表作成の基本となるタグです。",
             "example": "<table>\n  \n</table>"
         },
         {
             "question": "表（テーブル）の「行（横の並び）」を作るHTMLタグはどれ？", 
             "choices": ["<td>", "<tr>", "<th>", "<row>"], 
             "answer": "<tr>",
+            "explanation": "Table Rowの略です。",
             "example": "<tr>\n  <td>データ1</td>\n  <td>データ2</td>\n</tr>"
         },
         {
             "question": "表（テーブル）の「セル（データを入れる箱）」を作るHTMLタグはどれ？", 
             "choices": ["<tr>", "<th>", "<td>", "<cell>"], 
             "answer": "<td>",
+            "explanation": "Table Dataの略です。見出しセルには<th>を使います。",
             "example": "<tr>\n  <td>ここの部分です</td>\n</tr>"
         },
         {
             "question": "HTMLでブラウザには表示されない「コメントアウト（メモ）」を書く時の書き方はどれ？", 
             "choices": ["/* コメント */", "// コメント //", "", "# コメント"], 
             "answer": "",
+            "explanation": "CSSやJavaScriptとは書き方が違うので注意しましょう。",
             "example": "\n<p>表示されるテキスト</p>"
         },
         {
             "question": "CSSで「コメントアウト（メモ）」を書く時の書き方はどれ？", 
             "choices": ["", "// コメント", "/* コメント */", "# コメント"], 
             "answer": "/* コメント */",
+            "explanation": "複数行にわたって書くこともできます。",
             "example": "/* 背景色をグレーにする */\nbody {\n  background-color: gray;\n}"
         },
         {
             "question": "<a>タグで、リンク先のURLを指定するための「属性」はどれ？", 
             "choices": ["src", "link", "url", "href"], 
             "answer": "href",
+            "explanation": "Hypertext REFerenceの略です。",
             "example": "<a href=\"https://example.com\">ここをクリック</a>"
         },
         {
             "question": "<img>タグで、表示したい画像のファイル名やURLを指定するための「属性」はどれ？", 
             "choices": ["href", "src", "file", "img"], 
             "answer": "src",
+            "explanation": "SouRCeの略です。画像が表示できない時のためにalt属性も設定しましょう。",
             "example": "<img src=\"logo.png\">"
         }
     ],
@@ -457,94 +478,94 @@ questions = {
             "example": ".circle {\n  clip-path: circle(50%);\n}"
         },
         {
-            "question": "要素の角を丸くするCSSプロパティはどれ？", 
-            "choices": ["border-radius", "border-circle", "corner-radius", "round"], 
-            "answer": "border-radius",
-            "example": "button {\n  border-radius: 5px;\n}"
+            "question": "ユーザーがスマホなどを「ダークモード」にしているかどうかを検知するメディアクエリはどれ？", 
+            "choices": ["prefers-color-scheme", "prefers-dark-mode", "color-mode", "theme-mode"], 
+            "answer": "prefers-color-scheme",
+            "example": "@media (prefers-color-scheme: dark) {\n  body { background: black; color: white; }\n}"
         },
         {
-            "question": "要素に影（ドロップシャドウ）をつけるCSSプロパティはどれ？", 
-            "choices": ["text-shadow", "box-shadow", "drop-shadow", "shadow"], 
-            "answer": "box-shadow",
-            "example": "div {\n  box-shadow: 2px 2px 5px gray;\n}"
+            "question": "Gridレイアウトで、エリアに名前をつけて視覚的に配置を決めるプロパティはどれ？", 
+            "choices": ["grid-template-areas", "grid-area-map", "grid-layout-name", "grid-position"], 
+            "answer": "grid-template-areas",
+            "example": ".container {\n  grid-template-areas:\n    \"header header\"\n    \"sidebar main\";\n}"
         },
         {
-            "question": "paddingとborderを幅（width）に含める計算にするための、非常に重要なプロパティはどれ？", 
-            "choices": ["box-sizing: content-box;", "box-sizing: border-box;", "box-model: fix;", "width: auto;"], 
-            "answer": "box-sizing: border-box;",
-            "example": "* {\n  box-sizing: border-box;\n  /* これでレイアウト崩れを防げます */\n}"
+            "question": "画像の「縦横比（アスペクト比）」を維持したままレスポンシブにする、モダンなプロパティはどれ？", 
+            "choices": ["ratio", "aspect-ratio", "keep-ratio", "size-ratio"], 
+            "answer": "aspect-ratio",
+            "example": ".video {\n  aspect-ratio: 16 / 9;\n  width: 100%;\n}"
         },
         {
-            "question": "親要素（relative）を基準に、自由な位置に配置する「絶対配置」のプロパティはどれ？", 
-            "choices": ["position: absolute;", "position: fixed;", "position: static;", "position: sticky;"], 
-            "answer": "position: absolute;",
-            "example": ".parent { position: relative; }\n.child {\n  position: absolute;\n  top: 10px; right: 10px;\n}"
+            "question": "すりガラスのような「背景のぼかし効果」を作るプロパティはどれ？", 
+            "choices": ["filter: blur();", "backdrop-filter: blur();", "background-blur", "opacity-blur"], 
+            "answer": "backdrop-filter: blur();",
+            "example": ".glass {\n  background: rgba(255, 255, 255, 0.5);\n  backdrop-filter: blur(10px);\n}"
         },
         {
-            "question": "スクロールしても画面の同じ位置に固定され続ける配置（ヘッダーなど）はどれ？", 
-            "choices": ["position: absolute;", "position: fixed;", "position: sticky;", "display: fixed;"], 
-            "answer": "position: fixed;",
-            "example": "header {\n  position: fixed;\n  top: 0;\n  width: 100%;\n}"
+            "question": "ページ内リンクをクリックした時に、スルスルっと滑らかに移動させるプロパティはどれ？", 
+            "choices": ["scroll-behavior: smooth;", "transition: scroll;", "animation: slide;", "move: smooth;"], 
+            "answer": "scroll-behavior: smooth;",
+            "example": "html {\n  scroll-behavior: smooth;\n}"
         },
         {
-            "question": "要素からはみ出した部分を「非表示」にするプロパティはどれ？", 
-            "choices": ["overflow: hidden;", "overflow: scroll;", "display: none;", "visibility: hidden;"], 
-            "answer": "overflow: hidden;",
-            "example": "div {\n  width: 100px;\n  overflow: hidden;\n}"
+            "question": "フォントサイズなどを「最小値」「推奨値」「最大値」の範囲で可変させる便利な関数はどれ？", 
+            "choices": ["clamp()", "minmax()", "range()", "calc()"], 
+            "answer": "clamp()",
+            "example": "h1 {\n  font-size: clamp(16px, 5vw, 32px);\n  /* 16px〜32pxの間で画面幅に合わせて伸縮 */\n}"
         },
         {
-            "question": "CSSで計算式（足し算や引き算など）を使うための関数はどれ？", 
-            "choices": ["calc()", "math()", "sum()", "count()"], 
-            "answer": "calc()",
-            "example": "div {\n  width: calc(100% - 20px);\n}"
+            "question": "キーボード操作（Tabキー）の時だけフォーカス枠を表示し、マウス操作時は消すアクセシビリティ対応の擬似クラスはどれ？", 
+            "choices": [":focus-visible", ":focus-within", ":active", ":target"], 
+            "answer": ":focus-visible",
+            "example": "button:focus-visible {\n  outline: 2px solid blue;\n}"
         },
         {
-            "question": "画面の「高さ」の100%（画面いっぱい）を指定する単位はどれ？", 
-            "choices": ["100%", "100vh", "100px", "100em"], 
-            "answer": "100vh",
-            "example": ".hero {\n  height: 100vh;\n}"
+            "question": "「0（ゼロ）」という文字の幅を基準にした、等幅フォントでの文字数指定に便利な単位はどれ？", 
+            "choices": ["em", "rem", "ch", "ex"], 
+            "answer": "ch",
+            "example": "p {\n  max-width: 60ch;\n  /* 1行を約60文字以内に制限して読みやすくする */\n}"
         },
         {
-            "question": "背景色を「グラデーション」にするための関数はどれ？", 
-            "choices": ["gradient()", "linear-gradient()", "color-mix()", "background-image()"], 
-            "answer": "linear-gradient()",
-            "example": "div {\n  background: linear-gradient(to right, red, blue);\n}"
+            "question": "入力フォームの「カーソル（点滅する棒）」の色を変えるプロパティはどれ？", 
+            "choices": ["cursor-color", "caret-color", "input-color", "text-cursor"], 
+            "answer": "caret-color",
+            "example": "input {\n  caret-color: red;\n}"
         },
         {
-            "question": "画像が縦横比を保ったまま、親要素いっぱいに埋まるようにする（切り取られる）プロパティはどれ？", 
-            "choices": ["object-fit: cover;", "object-fit: contain;", "background-size: cover;", "width: 100%;"], 
-            "answer": "object-fit: cover;",
-            "example": "img {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n}"
+            "question": "画像とそのキャプション（説明文）をセットで扱うためのセマンティックなタグの組み合わせはどれ？", 
+            "choices": ["<figure> と <figcaption>", "<img> と <span>", "<image-box> と <text>", "<div> と <p>"], 
+            "answer": "<figure> と <figcaption>",
+            "example": "<figure>\n  <img src=\"cat.jpg\">\n  <figcaption>かわいい猫</figcaption>\n</figure>"
         },
         {
-            "question": "要素のスタイル変化を、時間をかけて滑らかに変化させる（アニメーションの基礎）プロパティはどれ？", 
-            "choices": ["animation", "transform", "transition", "change"], 
-            "answer": "transition",
-            "example": "button {\n  transition: all 0.3s;\n}"
+            "question": "JavaScriptなしで、クリックで開閉できる「アコーディオン（詳細）」を作るタグはどれ？", 
+            "choices": ["<details> と <summary>", "<accordion> と <item>", "<open> と <close>", "<toggle>"], 
+            "answer": "<details> と <summary>",
+            "example": "<details>\n  <summary>詳しく見る</summary>\n  <p>隠れていた内容...</p>\n</details>"
         },
         {
-            "question": "「もっとも優先度が高い」スタイル指定にするためのキーワードはどれ？", 
-            "choices": ["!important", "!priority", "!top", "!override"], 
-            "answer": "!important",
-            "example": "p {\n  color: red !important;\n}"
+            "question": "「特定の要素以外」を指定する、否定の擬似クラスはどれ？", 
+            "choices": [":not()", ":except()", ":no()", ":without()"], 
+            "answer": ":not()",
+            "example": "li:not(.special) {\n  color: gray;\n  /* .specialクラスがついていないliだけグレーにする */\n}"
         },
         {
-            "question": "要素の前後に装飾的なコンテンツを追加する「擬似要素」はどれ？", 
-            "choices": ["::before / ::after", ":first / :last", "::start / ::end", "::head / ::foot"], 
-            "answer": "::before / ::after",
-            "example": "h1::before {\n  content: '★';\n  color: gold;\n}"
+            "question": "「特定の子要素を持っている親要素」を指定できる、CSSの新しい強力な擬似クラス（親セレクタ）はどれ？", 
+            "choices": [":has()", ":parent()", ":contains()", ":owner()"], 
+            "answer": ":has()",
+            "example": "div:has(img) {\n  border: 1px solid red;\n  /* imgを中に持っているdivだけ赤枠にする */\n}"
         },
         {
-            "question": "SEO的にも重要な、ページの「主要なナビゲーション」を表すHTMLタグはどれ？", 
-            "choices": ["<div>", "<nav>", "<menu>", "<header>"], 
-            "answer": "<nav>",
-            "example": "<nav>\n  <ul><li>ホーム</li><li>記事一覧</li></ul>\n</nav>"
+            "question": "object-fitで切り取られる画像の位置（どこ中心で切り取るか）を調整するプロパティはどれ？", 
+            "choices": ["object-position", "background-position", "image-align", "fit-position"], 
+            "answer": "object-position",
+            "example": "img {\n  object-fit: cover;\n  object-position: top center;\n}"
         },
         {
-            "question": "フォームの部品（inputなど）と、そのラベル（文字）を紐付けるためのHTMLタグはどれ？", 
-            "choices": ["<tag>", "<label>", "<name>", "<span>"], 
-            "answer": "<label>",
-            "example": "<label>\n  名前：<input type=\"text\">\n</label>"
+            "question": "これから変化するプロパティをブラウザに事前に伝えて、アニメーションのカクつきを防ぐプロパティはどれ？", 
+            "choices": ["will-change", "render-ahead", "gpu-accelerate", "optimize"], 
+            "answer": "will-change",
+            "example": ".box {\n  will-change: transform, opacity;\n}"
         }
-    ],
+    ]
 }

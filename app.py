@@ -25,14 +25,12 @@ if "review_scored" not in st.session_state:
     st.session_state.review_scored = False
 
 # ----------------------------------------
-# ★追加機能：サイドバー（左メニュー）
+# ★サイドバー（左メニュー）
 # ----------------------------------------
-# クイズ中または復習中なら、左側に「タイトルに戻る」ボタンを常に出す
 if st.session_state.quiz_started:
     with st.sidebar:
         st.write("### メニュー")
         if st.button("🏠 タイトルに戻る"):
-            # 全てリセットして再読み込み
             st.session_state.quiz_started = False
             st.session_state.is_scored = False
             st.session_state.is_reviewing = False
@@ -60,7 +58,12 @@ if st.session_state.is_reviewing:
                 st.success("正解！ ばっちりですね！ ⭕")
             else:
                 st.error(f"不正解 ❌ (正解は: {q['answer']})")
+
+            # ★解説の表示（データがある場合のみ）
+            if "explanation" in q:
+                st.markdown(f"**📝 解説:**\n{q['explanation']}")
                 
+            # コード例の表示
             if "example" in q:
                 st.info("💡 【コード例】\n```\n" + q["example"] + "\n```")
             st.write("---")
@@ -71,12 +74,10 @@ if st.session_state.is_reviewing:
             st.session_state.review_answers[i] = answer
             st.write("---")
 
-    # ボタンの表示切り替え
     if not st.session_state.review_scored:
         if st.button("復習を採点する"):
             st.session_state.review_scored = True
             st.rerun()
-    # ※サイドバーにあるので、ここには戻るボタン不要
 
 # ----------------------------------------
 # ② 【スタート画面】
@@ -123,6 +124,10 @@ else:
                 st.success("正解！ ⭕")
             else:
                 st.error(f"不正解 ❌ (正解は: {q['answer']})")
+
+            # ★解説の表示（データがある場合のみ）
+            if "explanation" in q:
+                st.markdown(f"**📝 解説:**\n{q['explanation']}")
                 
             if "example" in q:
                 st.info("💡 【コード例】\n```\n" + q["example"] + "\n```")
@@ -147,9 +152,17 @@ else:
             
     else:
         score = len(questions) - len(st.session_state.wrong_questions)
-        st.write(f"### あなたの点数は {len(questions)}問中 【 {score}問 】 正解です！")
         
-        # 採点結果画面には、わかりやすいよう画面下にもボタンを残しておきます
+        # ★追加機能：点数に応じた演出
+        if score == len(questions):
+            st.balloons() # 風船を飛ばす
+            st.success(f"### 完璧です！全問正解！神レベル！🎉 ({score}/{len(questions)})")
+        elif score >= len(questions) * 0.8:
+            st.snow() # 雪を降らせる
+            st.success(f"### 素晴らしい！合格圏内です！❄️ ({score}/{len(questions)})")
+        else:
+            st.warning(f"### 惜しい！あと少しで合格です！🔥 ({score}/{len(questions)})")
+        
         col1, col2 = st.columns(2)
         with col1:
             if st.button("トップ画面に戻る", key="result_back_top"):
