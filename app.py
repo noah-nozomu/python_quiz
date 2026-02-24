@@ -18,7 +18,7 @@ if "wrong_questions" not in st.session_state:
 if "is_reviewing" not in st.session_state:
     st.session_state.is_reviewing = False
 
-# ↓追加：復習画面専用の記憶箱
+# 復習画面専用の記憶箱
 if "review_answers" not in st.session_state:
     st.session_state.review_answers = {}
 if "review_scored" not in st.session_state:
@@ -61,7 +61,6 @@ if st.session_state.is_reviewing:
             st.rerun()
     else:
         if st.button("トップ画面に戻る"):
-            # すべての記憶をリセットして最初に戻る
             st.session_state.quiz_started = False
             st.session_state.is_scored = False
             st.session_state.is_reviewing = False
@@ -89,8 +88,8 @@ elif not st.session_state.quiz_started:
             st.session_state.is_scored = False
             st.session_state.wrong_questions = []
             st.session_state.is_reviewing = False
-            st.session_state.review_scored = False # 念のためリセット
-            st.session_state.review_answers = {}   # 念のためリセット
+            st.session_state.review_scored = False
+            st.session_state.review_answers = {}
             st.rerun() 
         else:
             st.warning("このジャンル・難易度の問題はまだ準備中です！")
@@ -110,10 +109,15 @@ else:
             user_ans = st.session_state.user_answers.get(i)
             st.radio(f"Q{i+1}の選択", q['choices'], key=f"q_{i}", index=q['choices'].index(user_ans) if user_ans in q['choices'] else None, disabled=True)
             
+            # 【復活】正解の表示
             if user_ans == q['answer']:
                 st.success("正解！ ⭕")
             else:
-                st.error(f"不正解 ❌") # 本番画面では正解を見せず、復習で考えさせるように変更もできますが、今回は一旦表示させます
+                st.error(f"不正解 ❌ (正解は: {q['answer']})")
+                
+            # 【復活】例文（コード例）の表示
+            if "example" in q:
+                st.info("💡 【コード例】\n```\n" + q["example"] + "\n```")
                 
             st.write("---")
             
