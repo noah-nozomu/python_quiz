@@ -1,9 +1,6 @@
 # data_python_backend.py
 
 questions = {
-  # data_python_backend.py
-
-questions = {
     "初級": [
         {
             "question": "Pythonで文字や数値を画面に表示するための関数は？", 
