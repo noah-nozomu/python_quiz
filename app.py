@@ -28,7 +28,20 @@ if "review_scored" not in st.session_state:
 # ① 【復習画面】
 # ----------------------------------------
 if st.session_state.is_reviewing:
-    st.write("### 📝 復習画面")
+    # --- 追加部分：タイトルと戻るボタンを横並びにする ---
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.write("### 📝 復習画面")
+    with col2:
+        if st.button("中断して戻る", key="review_back_top"):
+            st.session_state.quiz_started = False
+            st.session_state.is_scored = False
+            st.session_state.is_reviewing = False
+            st.session_state.review_scored = False
+            st.session_state.review_answers = {}
+            st.rerun()
+    # --------------------------------------------------
+
     st.write("間違えた問題にもう一度挑戦してみましょう！")
     
     for i, q in enumerate(st.session_state.wrong_questions):
@@ -60,7 +73,8 @@ if st.session_state.is_reviewing:
             st.session_state.review_scored = True
             st.rerun()
     else:
-        if st.button("トップ画面に戻る"):
+        # 下部にも戻るボタンは残しておきます
+        if st.button("トップ画面に戻る", key="review_bottom_back"):
             st.session_state.quiz_started = False
             st.session_state.is_scored = False
             st.session_state.is_reviewing = False
@@ -98,7 +112,17 @@ elif not st.session_state.quiz_started:
 # ③ 【クイズ解答・結果画面】
 # ----------------------------------------
 else:
-    st.write(f"### 問題 ({len(st.session_state.current_questions)}問)")
+    # --- 追加部分：タイトルと戻るボタンを横並びにする ---
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.write(f"### 問題 ({len(st.session_state.current_questions)}問)")
+    with col2:
+        if st.button("中断して戻る", key="quiz_back_top"):
+            st.session_state.quiz_started = False
+            st.session_state.is_scored = False
+            st.session_state.wrong_questions = []
+            st.rerun()
+    # --------------------------------------------------
 
     questions = st.session_state.current_questions
 
@@ -143,7 +167,7 @@ else:
         
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("トップ画面に戻る"):
+            if st.button("トップ画面に戻る", key="result_back_top"):
                 st.session_state.quiz_started = False
                 st.session_state.is_scored = False
                 st.session_state.is_reviewing = False
