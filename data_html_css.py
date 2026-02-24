@@ -273,7 +273,7 @@ questions = {
             "choices": ["transition", "animation", "transform", "move"], 
             "answer": "transform",
             "example": "div {\n  transform: rotate(45deg);\n}"
-        }
+        },
         {
             "question": "要素の角を丸くするCSSプロパティはどれ？", 
             "choices": ["border-radius", "border-circle", "corner-radius", "round"], 
