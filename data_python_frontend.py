@@ -183,6 +183,368 @@ questions = {
             "example": "st.code('print(\"Hello World\")', language='python')"
         }
     ],
-    "中級": [],
-    "上級": []
+    "中級": [
+        {
+            "question": "Streamlitアプリのページタイトルやアイコン（favicon）を設定する関数はどれ？（※必ずコードの最初に書く必要があります）", 
+            "choices": ["st.set_page_config()", "st.page_settings()", "st.config()", "st.title_config()"], 
+            "answer": "st.set_page_config()",
+            "example": "st.set_page_config(\n    page_title=\"私のアプリ\",\n    page_icon=\"😎\",\n    layout=\"wide\"\n)"
+        },
+        {
+            "question": "データの読み込みなど、重い処理の結果を保存して高速化する（キャッシュする）ためのデコレータはどれ？", 
+            "choices": ["@st.cache_data", "@st.memo", "@st.save", "@st.fast"], 
+            "answer": "@st.cache_data",
+            "example": "@st.cache_data\ndef load_data():\n    return pd.read_csv('data.csv')"
+        },
+        {
+            "question": "データベース接続など、ハッシュ化できないオブジェクト（接続情報など）をキャッシュするためのデコレータはどれ？", 
+            "choices": ["@st.cache_resource", "@st.cache_object", "@st.connect", "@st.store"], 
+            "answer": "@st.cache_resource",
+            "example": "@st.cache_resource\ndef init_connection():\n    return create_engine(\"...\")"
+        },
+        {
+            "question": "画面の一部を後から書き換えるために場所を確保しておく「空のコンテナ（プレースホルダー）」を作る関数はどれ？", 
+            "choices": ["st.empty()", "st.place()", "st.container()", "st.blank()"], 
+            "answer": "st.empty()",
+            "example": "placeholder = st.empty()\nif st.button('更新'):\n    placeholder.write('書き換えました！')"
+        },
+        {
+            "question": "ボタンを押しても変数がリセットされないように、データを保存しておく辞書型の機能はどれ？", 
+            "choices": ["st.session_state", "st.state", "st.memory", "st.storage"], 
+            "answer": "st.session_state",
+            "example": "if 'count' not in st.session_state:\n    st.session_state.count = 0"
+        },
+        {
+            "question": "アプリの実行を途中で強制的に停止する（以降のコードを実行しない）関数はどれ？", 
+            "choices": ["st.stop()", "st.break()", "st.end()", "st.exit()"], 
+            "answer": "st.stop()",
+            "example": "if not user_name:\n    st.warning('名前を入力してください')\n    st.stop()"
+        },
+        {
+            "question": "Markdown形式のテキストをそのまま表示するための関数はどれ？", 
+            "choices": ["st.markdown()", "st.md()", "st.text()", "st.write()"], 
+            "answer": "st.markdown()",
+            "example": "st.markdown(\"**太字**や*イタリック*が使えます\")"
+        },
+        {
+            "question": "JSONデータを見やすく折りたたみ可能な形式で表示する関数はどれ？", 
+            "choices": ["st.json()", "st.dict()", "st.data()", "st.show_json()"], 
+            "answer": "st.json()",
+            "example": "data = {'a': 1, 'b': [1, 2, 3]}\nst.json(data)"
+        },
+        {
+            "question": "数値データの推移などを「折れ線グラフ」で簡易的に表示する関数はどれ？", 
+            "choices": ["st.line_chart()", "st.plot()", "st.chart()", "st.graph()"], 
+            "answer": "st.line_chart()",
+            "example": "st.line_chart([10, 20, 15, 25, 30])"
+        },
+        {
+            "question": "数値データの分布などを「棒グラフ」で簡易的に表示する関数はどれ？", 
+            "choices": ["st.bar_chart()", "st.bar()", "st.histogram()", "st.column_chart()"], 
+            "answer": "st.bar_chart()",
+            "example": "st.bar_chart({'data1': 50, 'data2': 80})"
+        },
+        {
+            "question": "地図上にポイントを表示する「マップ」を簡易的に表示する関数はどれ？", 
+            "choices": ["st.map()", "st.geo()", "st.location()", "st.world()"], 
+            "answer": "st.map()",
+            "example": "# 緯度経度のデータフレームを渡すだけで地図が表示されます\nst.map(df)"
+        },
+        {
+            "question": "複数の要素をグループ化して枠線などをつけることができるコンテナはどれ？", 
+            "choices": ["st.container()", "st.group()", "st.area()", "st.box()"], 
+            "answer": "st.container()",
+            "example": "with st.container():\n    st.write('ここはグループ化されています')\n    st.bar_chart(data)"
+        },
+        {
+            "question": "アップロードされたファイルを扱うためのウィジェットはどれ？", 
+            "choices": ["st.file_uploader()", "st.upload()", "st.file_input()", "st.import()"], 
+            "answer": "st.file_uploader()",
+            "example": "file = st.file_uploader('CSVファイルを選択', type='csv')"
+        },
+        {
+            "question": "ファイルをダウンロードするためのボタンを表示する関数はどれ？", 
+            "choices": ["st.download_button()", "st.save_button()", "st.export()", "st.file_download()"], 
+            "answer": "st.download_button()",
+            "example": "st.download_button('CSVをダウンロード', data=csv_text, file_name='data.csv')"
+        },
+        {
+            "question": "カメラを使って写真を撮影するための入力ウィジェットはどれ？", 
+            "choices": ["st.camera_input()", "st.photo_input()", "st.webcam()", "st.camera()"], 
+            "answer": "st.camera_input()",
+            "example": "img = st.camera_input('写真を撮る')\nif img:\n    st.image(img)"
+        },
+        {
+            "question": "処理の進捗状況をバーで表示する関数はどれ？", 
+            "choices": ["st.progress()", "st.bar()", "st.loading_bar()", "st.process()"], 
+            "answer": "st.progress()",
+            "example": "my_bar = st.progress(0)\nfor percent_complete in range(100):\n    my_bar.progress(percent_complete + 1)"
+        },
+        {
+            "question": "画面の右下にひょっこり現れて、数秒で消える通知メッセージ（トースト）を表示する関数はどれ？", 
+            "choices": ["st.toast()", "st.notification()", "st.popup()", "st.message()"], 
+            "answer": "st.toast()",
+            "example": "if st.button('保存'):\n    st.toast('保存しました！', icon='✅')"
+        },
+        {
+            "question": "KPIなどの重要な数値を、前日比（デルタ）付きで大きく表示する関数はどれ？", 
+            "choices": ["st.metric()", "st.kpi()", "st.stat()", "st.score()"], 
+            "answer": "st.metric()",
+            "example": "st.metric(label=\"気温\", value=\"24°C\", delta=\"1.2°C\")"
+        },
+        {
+            "question": "ユーザーが表（データフレーム）の中身を直接編集できる関数はどれ？", 
+            "choices": ["st.data_editor()", "st.edit_dataframe()", "st.table_editor()", "st.input_table()"], 
+            "answer": "st.data_editor()",
+            "example": "edited_df = st.data_editor(df)\n# 編集後のデータがedited_dfに入ります"
+        },
+        {
+            "question": "ユーザーに「色」を選んでもらうカラーピッカーを表示する関数はどれ？", 
+            "choices": ["st.color_picker()", "st.select_color()", "st.palette()", "st.color_input()"], 
+            "answer": "st.color_picker()",
+            "example": "color = st.color_picker('背景色を選択', '#00f900')"
+        },
+        {
+            "question": "Matplotlibで作成したグラフを表示するための関数はどれ？", 
+            "choices": ["st.pyplot()", "st.matplotlib()", "st.plot()", "st.figure()"], 
+            "answer": "st.pyplot()",
+            "example": "import matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.plot([1, 2, 3])\nst.pyplot(fig)"
+        },
+        {
+            "question": "Plotlyで作成したインタラクティブな（動かせる）グラフを表示する関数はどれ？", 
+            "choices": ["st.plotly_chart()", "st.interactive_chart()", "st.plotly()", "st.graph_object()"], 
+            "answer": "st.plotly_chart()",
+            "example": "st.plotly_chart(fig, use_container_width=True)"
+        },
+        {
+            "question": "パスワードやAPIキーなどの機密情報を安全に管理するためのStreamlitの機能はどれ？", 
+            "choices": ["st.secrets", "st.env", "st.passwords", "st.keys"], 
+            "answer": "st.secrets",
+            "example": "# .streamlit/secrets.toml に保存した情報を読み込む\napi_key = st.secrets[\"api_key\"]"
+        },
+        {
+            "question": "URLのクエリパラメータ（?id=123など）を取得したり設定したりする関数はどれ？", 
+            "choices": ["st.query_params", "st.get_url()", "st.params", "st.request_args"], 
+            "answer": "st.query_params",
+            "example": "# ?name=taro にアクセスした場合\nname = st.query_params[\"name\"]"
+        },
+        {
+            "question": "ボタンや入力欄で、操作が行われた瞬間に特定の関数を実行する（コールバック）ための引数はどれ？", 
+            "choices": ["on_change / on_click", "callback", "run_function", "trigger"], 
+            "answer": "on_change / on_click",
+            "example": "def my_func():\n    print('実行！')\n\nst.button('送信', on_click=my_func)"
+        },
+        {
+            "question": "ソースコードを表示しつつ、そのコードを実際に実行した結果も表示する（解説記事などで使う）関数はどれ？", 
+            "choices": ["st.echo()", "st.show_code()", "st.run_and_show()", "st.display_source()"], 
+            "answer": "st.echo()",
+            "example": "with st.echo():\n    st.write('このコードが表示され、かつ実行されます')"
+        },
+        {
+            "question": "数式（LaTeX形式）を綺麗にレンダリングして表示する関数はどれ？", 
+            "choices": ["st.latex()", "st.math()", "st.equation()", "st.formula()"], 
+            "answer": "st.latex()",
+            "example": "st.latex(r''' e^{i\pi} + 1 = 0 ''')"
+        },
+        {
+            "question": "クリックすると別のWebサイトに飛ぶリンクボタンを作成する関数はどれ？", 
+            "choices": ["st.link_button()", "st.url_button()", "st.href()", "st.a_tag()"], 
+            "answer": "st.link_button()",
+            "example": "st.link_button(\"Googleを開く\", \"https://google.com\")"
+        },
+        {
+            "question": "ウィジェットの右上に「？」マークを表示し、ホバー時に説明文を表示する引数はどれ？", 
+            "choices": ["help", "tooltip", "description", "info"], 
+            "answer": "help",
+            "example": "st.text_input('名前', help='ここにフルネームを入力してください')"
+        },
+        {
+            "question": "コードの途中で、アプリ全体を強制的に「再読み込み（リロード）」させる関数はどれ？", 
+            "choices": ["st.rerun()", "st.reload()", "st.refresh()", "st.restart()"], 
+            "answer": "st.rerun()",
+            "example": "if st.button('リセット'):\n    st.session_state.clear()\n    st.rerun()"
+        }
+    ],
+    "上級": [
+        {
+            "question": "Streamlitの標準機能では実現できない、Reactなどで作った独自の部品を組み込む機能を何と呼ぶ？", 
+            "choices": ["Custom Components", "Extensions", "Add-ons", "Widgets"], 
+            "answer": "Custom Components",
+            "example": "import streamlit.components.v1 as components\n# 自作のHTML/JSを表示\ncomponents.html(\"<h1>Hello</h1>\")"
+        },
+        {
+            "question": "Streamlitアプリをマルチページ対応（複数ページ）にするために、ページごとのPythonファイルを置くフォルダ名は？", 
+            "choices": ["pages", "views", "screens", "routes"], 
+            "answer": "pages",
+            "example": "# pages/page1.py に書いたコードが自動でサイドバーのメニューに追加されます"
+        },
+        {
+            "question": "Streamlitアプリの起動時に一度だけ実行され、セッションごとに共有されるリソース（DB接続など）を管理する新しいキャッシュデコレータは？", 
+            "choices": ["@st.cache_resource", "@st.cache_global", "@st.singleton", "@st.share"], 
+            "answer": "@st.cache_resource",
+            "example": "@st.cache_resource\ndef init_db():\n    return database.connect()"
+        },
+        {
+            "question": "データフレームなどの計算結果をキャッシュし、パラメータが変わった時だけ再計算させる新しいキャッシュデコレータは？", 
+            "choices": ["@st.cache_data", "@st.memo", "@st.compute", "@st.calc"], 
+            "answer": "@st.cache_data",
+            "example": "@st.cache_data\ndef long_computation(x):\n    return x * x"
+        },
+        {
+            "question": "キャッシュデータの有効期限（TTL）を設定する引数はどれ？", 
+            "choices": ["ttl", "expire", "timeout", "limit"], 
+            "answer": "ttl",
+            "example": "@st.cache_data(ttl=3600)  # 1時間後にキャッシュ切れ"
+        },
+        {
+            "question": "Streamlit Cloudなどにデプロイする際、必要なライブラリの一覧を記述するファイル名は？", 
+            "choices": ["requirements.txt", "package.json", "setup.py", "Pipfile"], 
+            "answer": "requirements.txt",
+            "example": "streamlit\npandas\nnumpy"
+        },
+        {
+            "question": "Streamlitのテーマ（色やフォント）をカスタマイズするために設定を記述するファイル名は？", 
+            "choices": [".streamlit/config.toml", "settings.json", "theme.yaml", "style.css"], 
+            "answer": ".streamlit/config.toml",
+            "example": "[theme]\nprimaryColor=\"#F63366\""
+        },
+        {
+            "question": "ファイルのアップロードサイズの上限を変更するために、config.tomlの[server]セクションで設定する項目は？", 
+            "choices": ["maxUploadSize", "uploadLimit", "fileSize", "limitMB"], 
+            "answer": "maxUploadSize",
+            "example": "[server]\nmaxUploadSize=200"
+        },
+        {
+            "question": "セッション状態（session_state）を、ページリロード後も保持し続けるために使う外部ライブラリとして有名なものは？", 
+            "choices": ["streamlit-session", "streamlit-cookies", "streamlit-local-storage", "Extra-streamlit-components"], 
+            "answer": "Extra-streamlit-components",
+            "example": "import extra_streamlit_components as stx\n# CookieManagerを使ってブラウザにデータを保存"
+        },
+        {
+            "question": "ユーザー認証（ログイン機能）を簡単に実装するためのライブラリとして有名なものは？", 
+            "choices": ["Streamlit-Authenticator", "Streamlit-Login", "Streamlit-Auth", "Streamlit-User"], 
+            "answer": "Streamlit-Authenticator",
+            "example": "import streamlit_authenticator as stauth"
+        },
+        {
+            "question": "StreamlitアプリのURL末尾に `?embed=true` をつけるとどうなる？", 
+            "choices": ["ヘッダーやフッターが消えて埋め込みモードになる", "デバッグモードになる", "管理者モードになる", "ダークモードになる"], 
+            "answer": "ヘッダーやフッターが消えて埋め込みモードになる",
+            "example": "https://myapp.streamlit.app/?embed=true"
+        },
+        {
+            "question": "アプリ内で発生した例外（エラー）の詳細を、ユーザーに見せずにログにだけ出力するための設定は？", 
+            "choices": ["client.showErrorDetails=false", "server.debug=false", "app.error=hide", "log.only=true"], 
+            "answer": "client.showErrorDetails=false",
+            "example": "# .streamlit/config.toml\n[client]\nshowErrorDetails=false"
+        },
+        {
+            "question": "Streamlitの実行ポート（デフォルトは8501）を変更するためのコマンドライン引数は？", 
+            "choices": ["--server.port", "--port", "-p", "--address"], 
+            "answer": "--server.port",
+            "example": "streamlit run app.py --server.port 8080"
+        },
+        {
+            "question": "StreamlitアプリをDockerコンテナで動かす際、外部からアクセス可能にするために設定すべきアドレスは？", 
+            "choices": ["--server.address 0.0.0.0", "--server.address localhost", "--server.address 127.0.0.1", "--host public"], 
+            "answer": "--server.address 0.0.0.0",
+            "example": "CMD streamlit run app.py --server.port 8501 --server.address 0.0.0.0"
+        },
+        {
+            "question": "Streamlitのexperimental機能（実験的機能）を使う際に、インポートするモジュールは？（現在は多くが本採用されています）", 
+            "choices": ["streamlit.experimental", "streamlit.beta", "streamlit.lab", "streamlit.test"], 
+            "answer": "streamlit.experimental",
+            "example": "from streamlit.experimental import data_editor # 古い書き方"
+        },
+        {
+            "question": "SQLデータベースやGoogle Sheetsなどに簡単に接続するための、新しい接続機能は？", 
+            "choices": ["st.connection()", "st.connect()", "st.db()", "st.sql()"], 
+            "answer": "st.connection()",
+            "example": "conn = st.connection(\"my_database\")\ndf = conn.query(\"select * from table\")"
+        },
+        {
+            "question": "データフレーム（st.dataframe）内の画像URLを実際の画像として表示したり、数値をバーで表示したりするための設定機能は？", 
+            "choices": ["st.column_config", "st.table_config", "st.df_style", "st.format"], 
+            "answer": "st.column_config",
+            "example": "st.dataframe(df, column_config={\"img\": st.column_config.ImageColumn()})"
+        },
+        {
+            "question": "ChatGPTのような「チャット画面（吹き出し）」を簡単に作るための関数は？", 
+            "choices": ["st.chat_message()", "st.message()", "st.bubble()", "st.talk()"], 
+            "answer": "st.chat_message()",
+            "example": "with st.chat_message(\"user\"):\n    st.write(\"こんにちは\")"
+        },
+        {
+            "question": "チャットアプリ用の「入力欄（送信ボタン付き）」を画面下部に固定して表示する関数は？", 
+            "choices": ["st.chat_input()", "st.text_area_chat()", "st.message_input()", "st.send_box()"], 
+            "answer": "st.chat_input()",
+            "example": "prompt = st.chat_input(\"何か入力してください\")\nif prompt:\n    st.write(f\"あなた: {prompt}\")"
+        },
+        {
+            "question": "処理の進行状況を表示し、完了後に折りたたまれる「ステータスコンテナ」を表示する関数は？", 
+            "choices": ["st.status()", "st.process_container()", "st.loading_box()", "st.step()"], 
+            "answer": "st.status()",
+            "example": "with st.status(\"データをダウンロード中...\"):\n    time.sleep(1)\n    st.write(\"完了！\")"
+        },
+        {
+            "question": "ON/OFFを切り替える「トグルスイッチ」を表示するウィジェットは？", 
+            "choices": ["st.toggle()", "st.switch()", "st.checkbox_slide()", "st.bool_input()"], 
+            "answer": "st.toggle()",
+            "example": "on = st.toggle(\"ダークモードを有効にする\")"
+        },
+        {
+            "question": "アプリの一部だけを再実行（リラン）して高速化する、新しい「フラグメント（部分更新）」機能は？", 
+            "choices": ["@st.fragment", "@st.partial", "@st.part", "@st.rerun_scope"], 
+            "answer": "@st.fragment",
+            "example": "@st.fragment\ndef update_chart():\n    # この関数内のボタンを押しても、ここだけしか再実行されない\n    st.button(\"更新\")"
+        },
+        {
+            "question": "画面の中央にポップアップ（モーダルウィンドウ）を表示する関数は？", 
+            "choices": ["@st.dialog", "st.modal()", "st.popup()", "st.window()"], 
+            "answer": "@st.dialog",
+            "example": "@st.dialog(\"警告\")\ndef show_warning():\n    st.write(\"本当に削除しますか？\")"
+        },
+        {
+            "question": "HTMLタグ（<script>などを含む）を直接埋め込んで実行するための、セキュリティリスクを伴う引数は？", 
+            "choices": ["unsafe_allow_html=True", "allow_html=True", "render_html=True", "exec_html=True"], 
+            "answer": "unsafe_allow_html=True",
+            "example": "st.markdown(\"<script>alert('Hello')</script>\", unsafe_allow_html=True)"
+        },
+        {
+            "question": "Altairを使って、高度でインタラクティブなグラフを表示する関数は？", 
+            "choices": ["st.altair_chart()", "st.vega_lite()", "st.chart_altair()", "st.advanced_chart()"], 
+            "answer": "st.altair_chart()",
+            "example": "st.altair_chart(altair_chart, use_container_width=True)"
+        },
+        {
+            "question": "3Dの地図（HexagonLayerなど）を表示するためのライブラリPyDeckを表示する関数は？", 
+            "choices": ["st.pydeck_chart()", "st.deck_gl()", "st.3d_map()", "st.map_3d()"], 
+            "answer": "st.pydeck_chart()",
+            "example": "st.pydeck_chart(pdk.Deck(...))"
+        },
+        {
+            "question": "Graphvizを使って、フローチャートやネットワーク図を描画する関数は？", 
+            "choices": ["st.graphviz_chart()", "st.diagram()", "st.flowchart()", "st.network()"], 
+            "answer": "st.graphviz_chart()",
+            "example": "st.graphviz_chart('digraph { A -> B }')"
+        },
+        {
+            "question": "Streamlit Cloud上で、現在ログインしているユーザーのメールアドレスなどを取得する（実験的）機能は？", 
+            "choices": ["st.experimental_user", "st.user_info", "st.login_user", "st.auth_user"], 
+            "answer": "st.experimental_user",
+            "example": "st.write(f\"ようこそ {st.experimental_user.email} さん\")"
+        },
+        {
+            "question": "サイドバーの左上に表示される「アプリのロゴ画像」を設定する関数は？", 
+            "choices": ["st.logo()", "st.sidebar_image()", "st.brand()", "st.icon()"], 
+            "answer": "st.logo()",
+            "example": "st.logo(\"my_logo.png\")"
+        },
+        {
+            "question": "Streamlitアプリのソースコードが変更された際、ブラウザをリロードせずに自動で反映させる開発モードの設定は？", 
+            "choices": ["Run on save", "Auto reload", "Hot reload", "Live edit"], 
+            "answer": "Run on save",
+            "example": "※設定画面で「Run on save」にチェックを入れると開発が楽になります"
+        }
+    ]
 }
